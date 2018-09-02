@@ -102,7 +102,7 @@
             }
         }
     $(function () {
-        $("#formPart2").validate({
+        $("#form1").validate({
             rules:{
                 onclick:true,
                 telNo: {
@@ -136,7 +136,7 @@
         })
         $("#button").click(function () {
         $.ajax({
-            url:"/UpdataUserServlet",
+            url:"/UpdateAllUserServlet",
             type:"post",
             data:{"USER_NAME":$("input[name='username']").val(),
                 "TRUE_NAME":$("input[name='trueName']").val(),
@@ -149,7 +149,7 @@
                 "QQ":$("input[name='QQ']").val()},
             dataType:"text",
             success:function (result) {
-               // window.location.href="myData_part1.html";
+               alert("保存成功")
                 }
             })
         })

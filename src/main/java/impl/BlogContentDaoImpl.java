@@ -3,6 +3,8 @@ package impl;
 import dao.BlogContentDao;
 
 import entity.BlogContent;
+import entity.UserInfo;
+import entity.getCount;
 import util.BaseDao;
 
 
@@ -41,4 +43,5 @@ public class BlogContentDaoImpl extends BaseDao<BlogContent> implements BlogCont
         return executeQuery("select * from (select *from (select rownum as ron,NUM1 AS NUMM,TOPIC2 AS TOP from（select count(*) as num1,topic2 from(select nvl(substr(BLOG_TEXT,instr(BLOG_TEXT,'#',1),instr(BLOG_TEXT,'#',1,2)),'null')as topic2 from BLOG_CONTENT)group by topic2 order by num1 desc）where TOPIC2 !='null') where ron <=?) where ron >?", new Object[]{rowmax, rowmin});
 
     }
+
 }
