@@ -3,21 +3,28 @@ package entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class BlogDiscuss {
-    private BigDecimal DISCUSS_ID;
+public class MyBlogLikeNum {
+    private BigDecimal LIKE_ID;
     private BigDecimal BLOG_ID;
     private BigDecimal USER_ID;
-    private String DISCUSS_TEXT;
-    private String DISCUSS_IMG;
-    private BigDecimal PRE_USER_ID;
     private Date CREATE_DATE_TIME;
+    private Date MODIFY_DATE_TIME;
+    private BigDecimal NUMLIK;
 
-    public BigDecimal getDISCUSS_ID() {
-        return DISCUSS_ID;
+    public BigDecimal getNUMLIK() {
+        return NUMLIK;
     }
 
-    public void setDISCUSS_ID(BigDecimal DISCUSS_ID) {
-        this.DISCUSS_ID = DISCUSS_ID;
+    public void setNUMLIK(BigDecimal NUMLIK) {
+        this.NUMLIK = NUMLIK;
+    }
+
+    public BigDecimal getLIKE_ID() {
+        return LIKE_ID;
+    }
+
+    public void setLIKE_ID(BigDecimal LIKE_ID) {
+        this.LIKE_ID = LIKE_ID;
     }
 
     public BigDecimal getBLOG_ID() {
@@ -36,30 +43,6 @@ public class BlogDiscuss {
         this.USER_ID = USER_ID;
     }
 
-    public String getDISCUSS_TEXT() {
-        return DISCUSS_TEXT;
-    }
-
-    public void setDISCUSS_TEXT(String DISCUSS_TEXT) {
-        this.DISCUSS_TEXT = DISCUSS_TEXT;
-    }
-
-    public String getDISCUSS_IMG() {
-        return DISCUSS_IMG;
-    }
-
-    public void setDISCUSS_IMG(String DISCUSS_IMG) {
-        this.DISCUSS_IMG = DISCUSS_IMG;
-    }
-
-    public BigDecimal getPRE_USER_ID() {
-        return PRE_USER_ID;
-    }
-
-    public void setPRE_USER_ID(BigDecimal PRE_USER_ID) {
-        this.PRE_USER_ID = PRE_USER_ID;
-    }
-
     public Date getCREATE_DATE_TIME() {
         return CREATE_DATE_TIME;
     }
@@ -75,9 +58,4 @@ public class BlogDiscuss {
     public void setMODIFY_DATE_TIME(Date MODIFY_DATE_TIME) {
         this.MODIFY_DATE_TIME = MODIFY_DATE_TIME;
     }
-
-    private Date MODIFY_DATE_TIME;
-
-
-
 }

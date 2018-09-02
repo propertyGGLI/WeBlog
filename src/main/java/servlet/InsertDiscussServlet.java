@@ -33,6 +33,7 @@ public class InsertDiscussServlet extends HttpServlet {
         BlogDiscussDaoImpl bddi = new BlogDiscussDaoImpl();
         int ret = bddi.insertDiscuss(blogDiscuss);
 
+
         PrintWriter out = response.getWriter();
 
         out.print(ret);
