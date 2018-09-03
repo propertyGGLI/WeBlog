@@ -5,6 +5,7 @@ import entity.Report;
 import util.BaseDao;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public class ReportDaoImpl extends BaseDao<Report> implements ReportDao {
@@ -18,5 +19,16 @@ public class ReportDaoImpl extends BaseDao<Report> implements ReportDao {
   public List<Report> CancelReport(BigDecimal BLOG_ID) {
     return executeQuery("UPDATE BLOG_CONTENT SET REPORT = 0 WHERE BLOG_ID = ?",new Object[]{BLOG_ID});
   }
+
+  @Override
+  public List<Report> deleteReportBlog(String BLOG_ID) {
+    return executeQuery("delete from BLOG_CONTENT where BLOG_ID = ?",new Object[]{BLOG_ID});
+  }
+
+  @Override
+  public List<Report> lockReportUser(String USER_ID, Date LOCK_STATE) {
+    return executeQuery("update from USER_INFO set LOCK_STATE = ? where USER_ID = ? ",new Object[]{LOCK_STATE,USER_ID});
+  }
+
 
 }

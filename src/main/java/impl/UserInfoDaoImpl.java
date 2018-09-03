@@ -23,8 +23,8 @@ public class UserInfoDaoImpl extends BaseDao<UserInfo> implements UserInfoDao {
 
 
     @Override
-    public List<UserInfo> showAllUser() {
-        return executeQuery("select * from user_info order by USER_ID desc");
+    public List<UserInfo> showAllUser1() {
+        return executeQuery("select * from user_info order by MODIFY_DATE_TIME desc");
     }
     //显示粉丝
     @Override
@@ -85,5 +85,7 @@ public class UserInfoDaoImpl extends BaseDao<UserInfo> implements UserInfoDao {
             return executeQuery("insert into USER_INFO(USER_NAME,USER_PASS,PHONE_NO,TRUE_NAME,GENDER,EMAIL,ADDRESS,BLOOD_TYPE,BIRTHDAY,QQ) values(?,?,?,?,?,?,?,?,?,?)", new Object[]{USER_NAME, USER_PASS, PHONE_NO, TRUE_NAME, GENDER, EMAIL, ADDRESS, BLOOD_TYPE, BIRTHDAY, QQ});
         }
 
-    }
+
+
+}
 

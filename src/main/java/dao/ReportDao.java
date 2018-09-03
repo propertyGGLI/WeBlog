@@ -4,6 +4,7 @@ import entity.Report;
 import entity.UserInfo;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public interface ReportDao {
@@ -12,4 +13,9 @@ public interface ReportDao {
 
   //将report清零
   List<Report> CancelReport(BigDecimal BLOG_ID);
+
+//  删除微博
+  List<Report> deleteReportBlog(String BLOG_ID);
+//  锁定用户
+  List<Report> lockReportUser(String USER_ID, Date LOCK_STATE);
 }
