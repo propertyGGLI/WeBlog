@@ -1,6 +1,6 @@
 .myData{width: 600px;height: 600px;font-size: 13px;}
 .myData_body{width: 560px;height: 600px;margin: auto}
-.basicInfo{width: 560px;height: 50px;font-size: 15px;font-weight:900;font-family: "黑体"}
+.basicInfo{width: 560px;height: 50px;font-size: 15px;font-weight:900;font-family: 宋体}
 .info{position:relative;top:19px;}
 .myData_baseView{width: 560px;height: 600px;}
 .myData_base{width: 550px;height: 650px;}
@@ -22,7 +22,7 @@ span{margin-left: 10px;}
 .baseView_name{width: 480px;height: 80px;text-align: left;}
 .baseView_name span{color: #5a73db;font-size:10px;}
 
-#button{background-color: #47bedb;font-size:12px;position:relative;left:510px;top:-5px;}
+#button{background-color: #47bedb;font-family:宋体;font-size:12px;position:relative;left:510px;top:-5px;}
 .spacer{
     width:438px;
     height: 1px;

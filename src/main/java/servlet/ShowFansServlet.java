@@ -25,8 +25,8 @@ public class ShowFansServlet extends HttpServlet {
     UserInfoDao dao = new UserInfoDaoImpl();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //显示粉丝
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
+//        request.setCharacterEncoding("UTF-8");
+//        response.setCharacterEncoding("UTF-8");
 //        String num= request.getParameter("num");
 //        int i =Integer.parseInt(num);
         List<UserInfo> list = dao.FansQuery(50);

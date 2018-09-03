@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css"href="css/myData.css">
     <link rel="stylesheet"type="text/css"href="layui/css/layui.css">
 <script>
-    $(function () {
+    $(document).ready(function () {
             $.ajax({
                 url:"/UserInfoServlet",
                 type:"post",
@@ -19,10 +19,12 @@
                     $(".base_part2").eq(2).text(j[0].PHONE_NO);
                     $(".base_part2").eq(3).text(j[0].ADDRESS);
                     $(".base_part2").eq(4).text(j[0].GENDER);
-                   //$(".base_part2").eq(5).text(j[0].BIRTHDAY);
+                    $(".base_part2").eq(5).text(j[0].BIRTHDAY);
                     $(".base_part2").eq(6).text(j[0].BLOOD_TYPE);
                     $(".base_part2").eq(7).text(j[0].CREATE_DATE_TIME);
                     $(".base_part2").eq(8).text(j[0].EMAIL);
+                    $(".base_part2").eq(9).text(j[0].QQ);
+
                 }
             })
     })
