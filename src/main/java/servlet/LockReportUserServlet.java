@@ -24,13 +24,14 @@ public class LockReportUserServlet extends HttpServlet {
       ReportDao reportDao = new ReportDaoImpl();
       String BLOG_ID = request.getParameter("BLOG_ID");
 //      时间格式转换问题
-      Date LOCK_STATE = Timestamp.valueOf(request.getParameter("LOCK_STATE"));
-      List<Report> reports = reportDao.lockReportUser(BLOG_ID,LOCK_STATE);
+//      Date LOCK_STATE = Timestamp.valueOf(request.getParameter("LOCK_STATE"));
+      List<Report> reports = reportDao.lockReportUser(BLOG_ID);
       JsonConfig jsonConfig = new JsonConfig();
       jsonConfig.registerJsonValueProcessor(Date.class,new JsonDateValueProcessor());
       JSONArray jsonArray = JSONArray.fromObject(reports,jsonConfig);
       PrintWriter out = response.getWriter();
       out.print(jsonArray);
+//      System.out.println(jsonArray);
       out.close();
       out.flush();
     }

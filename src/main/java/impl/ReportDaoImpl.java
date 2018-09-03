@@ -26,8 +26,8 @@ public class ReportDaoImpl extends BaseDao<Report> implements ReportDao {
   }
 
   @Override
-  public List<Report> lockReportUser(String USER_ID, Date LOCK_STATE) {
-    return executeQuery("update from USER_INFO set LOCK_STATE = ? where USER_ID = ? ",new Object[]{LOCK_STATE,USER_ID});
+  public List<Report> lockReportUser(String USER_ID) {
+    return executeQuery("update from USER_INFO set LOCK_STATE = sysdate + ? where USER_ID = ? ",new Object[]{USER_ID});
   }
 
 
