@@ -46,22 +46,40 @@
         <div class="blogcontent_shoucang">
             <ul>
                 <li>
-                    <div class="blogcontent_shoucang_demo"></div>
+                    <div class="blogcontent_shoucang_demo">
+                        <img src="" alt="" width="24px" height="24px">
+                        <a href="">username</a>
+                        <span>：收藏了此微博</span>
+                    </div>
                 </li>
                 <li>
-                    <div class="blogcontent_shoucang_demo"></div>
+                    <div class="blogcontent_shoucang_demo">
+                        <img src="" alt="" width="24px" height="24px">
+                        <a href="">username</a>
+                        <span>：收藏了此微博</span>
+                    </div>
                 </li>
             </ul>
         </div>
         <div class="blogcontent_pinglun">
             <div class="blogcontent_pinglun_text">
-                <div><span>评论</span></div>
-                <div><textarea name="" id="" cols="30" rows="10"></textarea></div>
-                <div class="append"><input type="submit"></div>
+                <div class="blogcontent_input_pinglun"><input type="text" style="width: 370px;border:none"></div>
+                <div class="append"><button class="blogcontent_pinglun_submit">发&nbsp&nbsp&nbsp&nbsp布</button></div>
             </div>
             <ul>
                 <li>
-                    <div class="blogcontent_pinglun_demo">666</div>
+                    <div class="blogcontent_pinglun_demo">
+                        <div class="blogcontent_pinglun_head"><img src="" alt="" width="24px" height="24px"></div>
+                        <div class="blogcontent_pinglun_neirong"><span style="width: 300px"><a href="">username :</a><span>真的是日了够了真的是日了够了真的是日了够了真的是日了够了真的是日了够了真的是日了够了真的是日了够了真的是日了够了真的是日了够了真的是日了够了</span></span></div>
+                        <div class="blogcontent_pinglun_huifu"><a href="" class="blogcontent_huifu">回复</a></div
+                    </div>
+                </li>
+                <li>
+                    <div class="blogcontent_pinglun_demo">
+                        <div class="blogcontent_pinglun_head"><img src="" alt="" width="24px" height="24px"></div>
+                        <div class="blogcontent_pinglun_neirong"><span style="width: 365px"><a href="">username :</a><span>真的是日了够了</span></span></div>
+                        <div class="blogcontent_pinglun_huifu"><a href="" class="blogcontent_huifu">回复</a></div
+                    </div>
                 </li>
             </ul>
         </div>
@@ -102,6 +120,7 @@
                         var $blogcontent_word=new_main.children().eq(2).children().eq(1).children();
                         $("#result").prepend(new_main);
                         new_main.children().eq(2).children().eq(2).attr("id","layer-photos-demo"+blogid);
+                        new_main.attr("id",blogid);
                         new_main.attr("blogid",blogid);
                         new_main.attr("userid",result[i].USER_ID);
                         new_main.attr("userna",result[i].USER_NAME);
@@ -195,10 +214,16 @@
             pagenum=pagenum+1;
             load();
         })
-        // $(window).scroll(function () {
-        //     var height =$(document).height();
-        //     var scrtop = $(document).scrollTop();
-        // })
+
+        $(window).scroll(function () {
+            if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+                toph= $(document).height() - 100;
+                load();
+                window.scrollTo(0,toph);
+                // lastnum = $(".blogcontent_main:last").attr("id");
+                //
+            }
+        })
         })
 </script>
 </html>
