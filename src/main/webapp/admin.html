@@ -4,9 +4,8 @@
   <meta charset="UTF-8">
   <title>WEBLOG后台管理系统</title>
   <script src="layui/layui.js"></script>
-  <script src="layer/layer.js"></script>
+  <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
   <script src="js/jquery-3.3.1.js"></script>
-  <link rel="stylesheet" href="layui/css/layui.css" type="text/css">
   <link rel="stylesheet" href="css/jquery.sinaEmotion.css" type="text/css">
   <script src="js/jquery.sinaEmotion.js"></script>
   <script src="js/echarts.js"></script>
@@ -30,379 +29,386 @@
 
   </script>
   <script type="text/javascript">
-    $(function () {
-
-      $.ajax({
-        url: "/showAllUser1Servlet",
-        type: "post",
-        dataType: "json",
-        success: function (result) {
-          //查询user_info 表的数据
-          //问题：不能显示从数据库获取的日期 就写死了默认值
-          for (var i = 0; i < result.length; i++) {
-            var $node = $('<tr>\n' +
-              '        <td><img src="' + result[i].HEAD_IMG + '" style="width: 100px;"></td>\n' +
-              '        <td>' + result[i].USER_ID + '</td>\n' +
-              '        <td><input type="text" style="border: none;width:90px;" value="' + result[i].PHONE_NO + '"></td>\n' +
-              '        <td><input type="text" style="border: none;width:80px;" value="' + result[i].USER_NAME + '"></td>\n' +
-              '        <td><input type="text" style="border: none;width:80px;" value="' + result[i].USER_PASS + '"></td>\n' +
-              '        <td><input type="text" style="border: none;width:80px;" value="' + result[i].TRUE_NAME + '"></td>\n' +
-              '        <td><input type="text" style="border: none;width:30px;" value="' + result[i].GENDER + '"></td>\n' +
-              '        <td><input type="text" style="border: none;width:30px;" value="' + result[i].BLOOD_TYPE + '"></td>\n' +
-              '        <td><input type="text" style="border: none;width:140px;" value="' + result[i].EMAIL + '"></td>\n' +
-              '        <td><input type="text" style="border: none;" value="' + result[i].ADDRESS + '"></td>\n' +
-              '        <td><input type="text" style="border:none;width:90px;" Value="' + Math.round(Math.random() * 30 + 1970) + '-0' + Math.round(Math.random() * 8 + 1) + '-' + Math.round(Math.random() * 21 + 9) + '"></td>\n' +
-              '        <td><input type="text" style="border: none;width:80px;" value="' + result[i].QQ + '"></td>\n' +
-              '        <td>' + result[i].CREATE_DATE_TIME + '</td>\n' +
-              '        <td>' + result[i].MODIFY_DATE_TIME + '</td>\n' +
-              '        <td>\n' +
-              '            <button class="layui-btn layui-btn-warm change">修改</button>\n' +
-              '            <button class="layui-btn layui-btn-danger delete">删除</button>\n' +
-              '        </td>\n' +
-              '      </tr>');
-            $('#tbody1').append($node);
-          }
-        }
-      });
-
-      //  点击删除按钮 获取 user_id
-      //待改内容：先删除再弹窗了，sql语句没删到数据库
-      $('#tbody1').on('click', '.delete', function () {
-        var $node = $(this);
-        var text = "确定删除该用户？";
-
-        layer.open({
-          type: 1,
-          content: '<div style="padding: 20px 100px;">' + text + '</div>',
-          btn: ['确定', '取消'],
-          btnAlign: 'c',
-          yes: function () {
-            $.ajax({
-              url: '/DeleteUserServlet',
-              type: 'post',
-              data: {
-                'USER_ID': $node.closest('tr').children().eq(1).text()
-              },
-              dataType: 'json',
-              success: function () {
-                $node.closest('tr').remove();
-                layer.msg("修改成功！", {
-                  icon: 6,
-                  time: 1000
-                });
-              }
-            });
-            layer.closeAll();
-          }
-        });
-
-
-      });
-
-      // 点击修改获取 user_id 传值 更新表
-      $('#tbody1').on('click', '.change', function () {
-        var text = '确定修改该用户？';
-        var $node = $(this);
-        layer.open({
-          type: 1,
-          content: '<div style="padding: 20px 100px;">' + text + '</div>',
-          btn: ['确定', '取消'],
-          btnAlign: 'c',
-          yes: function () {
-            //  ajax 获取user_id 提交表单数据 更新于数据库
-            $.ajax({
-              url: '/UpdataUserServlet',
-              type: 'post',
-              data: {
-                'USER_ID': $node.closest('tr').children().eq(1).text(),
-                'USER_NAME': $node.closest('tr').children().eq(2).children().val(),
-                'USER_PASS': $node.closest('tr').children().eq(3).children().val(),
-                'TRUE_NAME': $node.closest('tr').children().eq(4).children().val(),
-                'GENDER': $node.closest('tr').children().eq(5).children().val(),
-                'BLOOD_TYPE': $node.closest('tr').children().eq(6).children().val(),
-                'PHONE_NO': $node.closest('tr').children().eq(7).children().val(),
-                'EMAIL': $node.closest('tr').children().eq(8).children().val(),
-                'ADDRESS': $node.closest('tr').children().eq(9).children().val(),
-                'BIRTHDAY': $node.closest('tr').children().eq(10).children().val(),
-                'QQ': $node.closest('tr').children().eq(11).children().val()
-              },
-              dataType: 'json',
-              success: function () {
-                layer.msg("修改成功！", {
-                  icon: 6,
-                  time: 1000
-                });
-              }
-            });
-            layer.closeAll();
-            location.reload();
-          }
-        });
-      });
-      //添加用户
-      $(".add").click(function () {
+    layui.use('layer', function () {
+      var layer = layui.layer;
+      $(function () {
         $.ajax({
-          url: '/AddUserServlet',
+          url: "/showAllUser1Servlet",
+          type: "post",
+          dataType: "json",
+          success: function (result) {
+            //查询user_info 表的数据
+            //问题：不能显示从数据库获取的日期 就写死了默认值
+            for (var i = 0; i < result.length; i++) {
+              var $node = $('<tr>\n' +
+                '        <td><img src="' + result[i].HEAD_IMG + '" style="width: 100px;"></td>\n' +
+                '        <td>' + result[i].USER_ID + '</td>\n' +
+                '        <td><input type="text" style="border: none;width:90px;" value="' + result[i].PHONE_NO + '"></td>\n' +
+                '        <td><input type="text" style="border: none;width:80px;" value="' + result[i].USER_NAME + '"></td>\n' +
+                '        <td><input type="text" style="border: none;width:80px;" value="' + result[i].USER_PASS + '"></td>\n' +
+                '        <td><input type="text" style="border: none;width:80px;" value="' + result[i].TRUE_NAME + '"></td>\n' +
+                '        <td><input type="text" style="border: none;width:30px;" value="' + result[i].GENDER + '"></td>\n' +
+                '        <td><input type="text" style="border: none;width:30px;" value="' + result[i].BLOOD_TYPE + '"></td>\n' +
+                '        <td><input type="text" style="border: none;width:140px;" value="' + result[i].EMAIL + '"></td>\n' +
+                '        <td><input type="text" style="border: none;" value="' + result[i].ADDRESS + '"></td>\n' +
+                '        <td><input type="text" style="border:none;width:90px;" Value="' + Math.round(Math.random() * 30 + 1970) + '-0' + Math.round(Math.random() * 8 + 1) + '-' + Math.round(Math.random() * 21 + 9) + '"></td>\n' +
+                '        <td><input type="text" style="border: none;width:80px;" value="' + result[i].QQ + '"></td>\n' +
+                '        <td>' + result[i].CREATE_DATE_TIME + '</td>\n' +
+                '        <td>' + result[i].MODIFY_DATE_TIME + '</td>\n' +
+                '        <td>\n' +
+                '            <button class="layui-btn layui-btn-warm change">修改</button>\n' +
+                '            <button class="layui-btn layui-btn-danger delete">删除</button>\n' +
+                '        </td>\n' +
+                '      </tr>');
+              $('#tbody1').append($node);
+            }
+          }
+        });
+
+        //  点击删除按钮 获取 user_id
+        //待改内容：先删除再弹窗了，sql语句没删到数据库
+        $('#tbody1').on('click', '.delete', function () {
+          var $node = $(this);
+          var text = "确定删除该用户？";
+
+          layer.open({
+            type: 1,
+            content: '<div style="padding: 20px 100px;">' + text + '</div>',
+            btn: ['确定', '取消'],
+            btnAlign: 'c',
+            yes: function () {
+              $.ajax({
+                url: '/DeleteUserServlet',
+                type: 'post',
+                data: {
+                  'USER_ID': $node.closest('tr').children().eq(1).text()
+                },
+                dataType: 'json',
+                success: function () {
+                  $node.closest('tr').remove();
+                  layer.msg("修改成功！", {
+                    icon: 6,
+                    time: 1000
+                  });
+                }
+              });
+              layer.closeAll();
+            }
+          });
+        });
+
+        // 点击修改获取 user_id 传值 更新表
+        $('#tbody1').on('click', '.change', function () {
+          var text = '确定修改该用户？';
+          var $node = $(this);
+          layer.open({
+            type: 1,
+            content: '<div style="padding: 20px 100px;">' + text + '</div>',
+            btn: ['确定', '取消'],
+            btnAlign: 'c',
+            yes: function () {
+              //  ajax 获取user_id 提交表单数据 更新于数据库
+              $.ajax({
+                url: '/UpdataUserServlet',
+                type: 'post',
+                data: {
+                  'USER_ID': $node.closest('tr').children().eq(1).text(),
+                  'PHONE_NO': $node.closest('tr').children().eq(2).children().val(),
+                  'USER_NAME': $node.closest('tr').children().eq(3).children().val(),
+                  'USER_PASS': $node.closest('tr').children().eq(4).children().val(),
+                  'TRUE_NAME': $node.closest('tr').children().eq(5).children().val(),
+                  'GENDER': $node.closest('tr').children().eq(6).children().val(),
+                  'BLOOD_TYPE': $node.closest('tr').children().eq(7).children().val(),
+                  'EMAIL': $node.closest('tr').children().eq(8).children().val(),
+                  'ADDRESS': $node.closest('tr').children().eq(9).children().val(),
+                  'BIRTHDAY': $node.closest('tr').children().eq(10).children().val(),
+                  'QQ': $node.closest('tr').children().eq(11).children().val()
+                },
+                dataType: 'json',
+                success: function () {
+                  layer.msg("修改成功！", {
+                    icon: 6,
+                    time: 1000
+                  });
+                }
+              });
+              layer.closeAll();
+              location.reload();
+            }
+          });
+        });
+        //添加用户
+        $(".add").click(function () {
+          $.ajax({
+            url: '/AddUserServlet',
+            type: 'post',
+            data: {
+              'PHONE_NO': $(this).closest('tr').children().eq(2).children().val(),
+              'USER_NAME': $(this).closest('tr').children().eq(3).children().val(),
+              'USER_PASS': $(this).closest('tr').children().eq(4).children().val(),
+              'TRUE_NAME': $(this).closest('tr').children().eq(5).children().val(),
+              'GENDER': $(this).closest('tr').children().eq(6).children().val(),
+              'BLOOD_TYPE': $(this).closest('tr').children().eq(7).children().val(),
+              'EMAIL': $(this).closest('tr').children().eq(8).children().val(),
+              'ADDRESS': $(this).closest('tr').children().eq(9).children().val(),
+              'BIRTHDAY': $(this).closest('tr').children().eq(10).children().val(),
+              'QQ': $(this).closest('tr').children().eq(11).children().val(),
+            },
+            dataType: 'json',
+            success: function () {
+              layer.msg("添加成功！", {
+                icon: 6,
+                time: 1000
+              });
+              window.location.reload();
+            },error:function () {
+              layer.msg("添加失败！",{icon:6})
+            }
+
+          });
+        });
+
+        //  审核微博
+        $.ajax({
+          url: '/ShowReportServlet',
           type: 'post',
-          data: {
-            'PHONE_NO': $(this).closest('tr').children().eq(2).children().val(),
-            'USER_NAME': $(this).closest('tr').children().eq(3).children().val(),
-            'USER_PASS': $(this).closest('tr').children().eq(4).children().val(),
-            'TRUE_NAME': $(this).closest('tr').children().eq(5).children().val(),
-            'GENDER': $(this).closest('tr').children().eq(6).children().val(),
-            'BLOOD_TYPE': $(this).closest('tr').children().eq(7).children().val(),
-            'EMAIL': $(this).closest('tr').children().eq(8).children().val(),
-            'ADDRESS': $(this).closest('tr').children().eq(9).children().val(),
-            'BIRTHDAY': $(this).closest('tr').children().eq(10).children().val(),
-            'QQ': $(this).closest('tr').children().eq(11).children().val(),
-          },
           dataType: 'json',
-          success: function () {
-            layer.msg("修改成功！", {
-              icon: 6,
-              time: 1000
-            });
-            window.location.reload();
+          success: function (result) {
+            for (var i = 0; i < result.length; i++) {
+              var $node = $(
+                '    <tr>\n' +
+                '      <td>' + result[i].BLOG_ID + '</td>\n' +
+                '      <td>' + result[i].USER_ID + '</td>\n' +
+                '      <td>' + result[i].USER_NAME + '</td>\n' +
+                '      <td style="width: 420px">\n' +
+                '        <div style="width:400px;overflow: hidden;white-space: nowrap;display: inline-block"><a class="text_a1">' + result[i].BLOG_TEXT + '</a><a class="text_a2">' + result[i].BLOG_IMG + '</a></div>\n' +
+                '        <i data-method="notice" class="layui-icon layui-icon-more "></i></td>\n' +
+                '      <td>' + result[i].REPORT + '</td>\n' +
+                '      <td>' + result[i].LOCK_STATE + '</td>\n' +
+                '      <td>\n' +
+                '        <button class="layui-btn layui-btn-warm cancel">清空举报</button>\n' +
+                '        <button class="layui-btn layui-btn-danger delete_Bl">删除微博</button>\n' +
+                '        <button class="layui-btn layui-btn-danger lock_it">锁定用户</button>\n' +
+                '      </td>\n' +
+                '    </tr>\n' +
+                '\n');
+              $('#tbody4').append($node);
+            }
           }
         });
-      });
-
-      //  审核微博
-      $.ajax({
-        url: '/ShowReportServlet',
-        type: 'post',
-        dataType: 'json',
-        success: function (result) {
-          for (var i = 0; i < result.length; i++) {
-            var $node = $(
-              '    <tr>\n' +
-              '      <td>' + result[i].BLOG_ID + '</td>\n' +
-              '      <td>' + result[i].USER_ID + '</td>\n' +
-              '      <td>' + result[i].USER_NAME + '</td>\n' +
-              '      <td style="width: 420px">\n' +
-              '        <div style="width:400px;overflow: hidden;white-space: nowrap;display: inline-block"><a class="text_a1">' + result[i].BLOG_TEXT + '</a><a class="text_a2">' + result[i].BLOG_IMG + '</a></div>\n' +
-              '        <i data-method="notice" class="layui-icon layui-icon-more "></i></td>\n' +
-              '      <td>' + result[i].REPORT + '</td>\n' +
-              '      <td>' + result[i].LOCK_STATE + '</td>\n' +
-              '      <td>\n' +
-              '        <button class="layui-btn layui-btn-warm cancel">清空举报</button>\n' +
-              '        <button class="layui-btn layui-btn-danger delete_Bl">删除微博</button>\n' +
-              '        <button class="layui-btn layui-btn-danger lock_it">锁定用户</button>\n' +
-              '      </td>\n' +
-              '    </tr>\n' +
-              '\n');
-            $('#tbody4').append($node);
-          }
-        }
-      });
-      //。。。扩展内容
-      $('#result').parseEmotion();
-      $('#tbody4').on('click', '.layui-icon-more', function () {
-        var $node = $(this).closest('td').children().eq(0).children().eq(1).text();
-        // alert($node);
-        var text = $(this).closest('td').children().eq(0).children().eq(0).text();
-        layer.open({
-          type: 1,
-          area: '1000px',
-          offset: 't',
-          shade: 0.8,
-          title: false,
-          content: '<div id="result" style="padding: 20px 100px;">' + text + '<br>' + '<img src="' + $node + '">' + '</div>',
-          btn: '返回',
-          btnAlign: 'c',
-          yes: function () {
-            layer.closeAll();
-          }
+        //。。。扩展内容
+        $('#result').parseEmotion();
+        $('#tbody4').on('click', '.layui-icon-more', function () {
+          var $node = $(this).closest('td').children().eq(0).children().eq(1).text();
+          // alert($node);
+          var text = $(this).closest('td').children().eq(0).children().eq(0).text();
+          layer.open({
+            type: 1,
+            area: '1000px',
+            offset: 'c',
+            shade: 0.8,
+            title: false,
+            content: '<div id="result" style="padding: 20px 100px;">' + text + '<br>' + '<img src="' + $node + '">' + '</div>',
+            btn: '返回',
+            btnAlign: 'c',
+            yes: function () {
+              layer.closeAll();
+            }
+          });
         });
-      });
 
-      //清空举报
-      $('#tbody4').on('click', '.cancel', function () {
-        var $node = $(this);
-        var text = '确认是否清空该条微博的举报';
-        layer.open({
-          type: 1,
-          title: '警告！',
-          content: '<div style="padding: 20px 80px;">' + text + '</div>',
-          btn: ['确定', '取消'],
-          btnAlign: 'c',
-          yes: function () {
-            $.ajax({
-              url: '/CancelReportServlet',
-              type: 'post',
-              data: {'BLOG_ID': $node.closest('tr').children().eq(0).text()},
-              dataType: 'json',
-              success: function () {
-                //局部刷新
-                layer.msg('清空成功', {icon: 6});
-                $node.closest('tr').remove();
-                $.ajax({
-                  url: '/ShowReportServlet',
-                  type: 'post',
-                  dataType: 'json',
-                  success: function (result) {
-                    for (var i = 0; i < result.length; i++) {
-                      $node = $(
-                        '    <tr>\n' +
-                        '      <td>' + result[i].BLOG_ID + '</td>\n' +
-                        '      <td>' + result[i].USER_ID + '</td>\n' +
-                        '      <td>' + result[i].USER_NAME + '</td>\n' +
-                        '      <td style="width: 420px">\n' +
-                        '        <div style="width:400px;overflow: hidden;white-space: nowrap;display: inline-block"><a class="text_a1">' + result[i].BLOG_TEXT + '</a><a class="text_a2">' + result[i].BLOG_IMG + '</a></div>\n' +
-                        '        <i data-method="notice" class="layui-icon layui-icon-more "></i></td>\n' +
-                        '      <td>' + result[i].REPORT + '</td>\n' +
-                        '      <td>' + result[i].LOCK_STATE + '</td>\n' +
-                        '      <td>\n' +
-                        '        <button class="layui-btn layui-btn-warm cancel">清空举报</button>\n' +
-                        '        <button class="layui-btn layui-btn-danger delete_Bl">删除微博</button>\n' +
-                        '        <button class="layui-btn layui-btn-danger lock_it">锁定用户</button>\n' +
-                        '      </td>\n' +
-                        '    </tr>\n' +
-                        '\n');
-                      $('#tbody4').append($node);
+        //清空举报
+        $('#tbody4').on('click', '.cancel', function () {
+          var $node = $(this);
+          var text = '确认是否清空该条微博的举报';
+          layer.open({
+            type: 1,
+            title: '警告！',
+            content: '<div style="padding: 20px 80px;">' + text + '</div>',
+            btn: ['确定', '取消'],
+            btnAlign: 'c',
+            yes: function () {
+              $.ajax({
+                url: '/CancelReportServlet',
+                type: 'post',
+                data: {'BLOG_ID': $node.closest('tr').children().eq(0).text()},
+                dataType: 'json',
+                success: function () {
+                  //局部刷新
+                  layer.msg('清空成功', {icon: 6});
+                  $node.closest('tr').remove();
+                  $.ajax({
+                    url: '/ShowReportServlet',
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (result) {
+                      for (var i = 0; i < result.length; i++) {
+                        $node = $(
+                          '    <tr>\n' +
+                          '      <td>' + result[i].BLOG_ID + '</td>\n' +
+                          '      <td>' + result[i].USER_ID + '</td>\n' +
+                          '      <td>' + result[i].USER_NAME + '</td>\n' +
+                          '      <td style="width: 420px">\n' +
+                          '        <div style="width:400px;overflow: hidden;white-space: nowrap;display: inline-block"><a class="text_a1">' + result[i].BLOG_TEXT + '</a><a class="text_a2">' + result[i].BLOG_IMG + '</a></div>\n' +
+                          '        <i data-method="notice" class="layui-icon layui-icon-more "></i></td>\n' +
+                          '      <td>' + result[i].REPORT + '</td>\n' +
+                          '      <td>' + result[i].LOCK_STATE + '</td>\n' +
+                          '      <td>\n' +
+                          '        <button class="layui-btn layui-btn-warm cancel">清空举报</button>\n' +
+                          '        <button class="layui-btn layui-btn-danger delete_Bl">删除微博</button>\n' +
+                          '        <button class="layui-btn layui-btn-danger lock_it">锁定用户</button>\n' +
+                          '      </td>\n' +
+                          '    </tr>\n' +
+                          '\n');
+                        $('#tbody4').append($node);
+                      }
                     }
-                  }
-                });
-              }
-            });
-            layer.closeAll();
-          }
+                  });
+                }
+              });
+              layer.closeAll();
+            }
+          });
         });
-      });
 
-      //  删除该条微博
-      $('#tbody4').on('click', '.delete_Bl', function () {
-        var text = '确定删除该微博?';
-        var $node = $(this);
-        layer.open({
-          type: 1,
-          title: '警告！',
-          content: '<div style="padding: 20px 80px;">' + text + '</div>',
-          btn: ['确定', '取消'],
-          btnAlign: 'c',
-          yes: function () {
-            $.ajax({
-              url: '/deleteReportUserServlet',
-              type: 'post',
-              data: {'BLOG_ID': $node.closest('tr').children().eq(0).text()},
-              dataType: 'json',
-              success: function () {
-                layer.msg('删除成功！', {icon: 6});
-                location.reload();
-                $.ajax({
-                  url: '/ShowReportServlet',
-                  type: 'post',
-                  dataType: 'json',
-                  success: function (result) {
-                    for (var i = 0; i < result.length; i++) {
-                      $node = $(
-                        '    <tr>\n' +
-                        '      <td>' + result[i].BLOG_ID + '</td>\n' +
-                        '      <td>' + result[i].USER_ID + '</td>\n' +
-                        '      <td>' + result[i].USER_NAME + '</td>\n' +
-                        '      <td style="width: 420px">\n' +
-                        '        <div style="width:400px;overflow: hidden;white-space: nowrap;display: inline-block"><a class="text_a1">' + result[i].BLOG_TEXT + '</a><a class="text_a2">' + result[i].BLOG_IMG + '</a></div>\n' +
-                        '        <i data-method="notice" class="layui-icon layui-icon-more "></i></td>\n' +
-                        '      <td>' + result[i].REPORT + '</td>\n' +
-                        '      <td>' + result[i].LOCK_STATE + '</td>\n' +
-                        '      <td>\n' +
-                        '        <button class="layui-btn layui-btn-warm cancel">清空举报</button>\n' +
-                        '        <button class="layui-btn layui-btn-danger delete_Bl">删除微博</button>\n' +
-                        '        <button class="layui-btn layui-btn-danger lock_it">锁定用户</button>\n' +
-                        '      </td>\n' +
-                        '    </tr>\n' +
-                        '\n');
-                      $('#tbody4').append($node);
+        //  删除该条微博
+        $('#tbody4').on('click', '.delete_Bl', function () {
+          var text = '确定删除该微博?';
+          var $node = $(this);
+          layer.open({
+            type: 1,
+            title: '警告！',
+            content: '<div style="padding: 20px 80px;">' + text + '</div>',
+            btn: ['确定', '取消'],
+            btnAlign: 'c',
+            yes: function () {
+              // $node.closest('tr').children().eq(0).text()
+              $.ajax({
+                url: '/deleteReportUserServlet',
+                type: 'post',
+                data: {'BLOG_ID': $node.closest('tr').children().eq(0).text()},
+                dataType: 'json',
+                success: function () {
+                  layer.msg('删除成功！', {icon: 6});
+                  $node.closest('tr').remove();
+                  $.ajax({
+                    url: '/ShowReportServlet',
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (result) {
+                      for (var i = 0; i < result.length; i++) {
+                        $node = $(
+                          '    <tr>\n' +
+                          '      <td>' + result[i].BLOG_ID + '</td>\n' +
+                          '      <td>' + result[i].USER_ID + '</td>\n' +
+                          '      <td>' + result[i].USER_NAME + '</td>\n' +
+                          '      <td style="width: 420px">\n' +
+                          '        <div style="width:400px;overflow: hidden;white-space: nowrap;display: inline-block"><a class="text_a1">' + result[i].BLOG_TEXT + '</a><a class="text_a2">' + result[i].BLOG_IMG + '</a></div>\n' +
+                          '        <i data-method="notice" class="layui-icon layui-icon-more "></i></td>\n' +
+                          '      <td>' + result[i].REPORT + '</td>\n' +
+                          '      <td>' + result[i].LOCK_STATE + '</td>\n' +
+                          '      <td>\n' +
+                          '        <button class="layui-btn layui-btn-warm cancel">清空举报</button>\n' +
+                          '        <button class="layui-btn layui-btn-danger delete_Bl">删除微博</button>\n' +
+                          '        <button class="layui-btn layui-btn-danger lock_it">锁定用户</button>\n' +
+                          '      </td>\n' +
+                          '    </tr>\n' +
+                          '\n');
+                        $('#tbody4').append($node);
+                      }
                     }
-                  }
-                });
-              }
-            });
-          }
+                  });
+                }
+              });
+              layer.closeAll();
+            }
+          });
         });
-      });
 
-      //  锁定用户
-      $("#tbody4").on('click', '.lock_it', function () {
-        var text = "请输入天数：";
-        var $node = $(this);
-        layer.open({
-          type: 1,
-          title: '警告！',
-          content: '<div style="padding: 20px 80px;">' + text + '</div>',
-          btn: ['确定', '取消'],
-          btnAlign: 'c',
-          yes: function () {
-            $.ajax({
-              url: '/LockReportUserServlet',
-              type: 'post',
-              data: {
-                'USER_ID': $node.closest('tr').children().eq(1).text(),
-                'LOCK_STATE': $node.closest('tr').children().eq(5).text()
-              },
-              dataType: 'json',
-              success: function () {
-                layer.msg('锁定成功！', {icon: 6});
-                location.reload();
-                $.ajax({
-                  url: '/ShowReportServlet',
-                  type: 'post',
-                  dataType: 'json',
-                  success: function (result) {
-                    for (var i = 0; i < result.length; i++) {
-                      $node = $(
-                        '    <tr>\n' +
-                        '      <td>' + result[i].BLOG_ID + '</td>\n' +
-                        '      <td>' + result[i].USER_ID + '</td>\n' +
-                        '      <td>' + result[i].USER_NAME + '</td>\n' +
-                        '      <td style="width: 420px">\n' +
-                        '        <div style="width:400px;overflow: hidden;white-space: nowrap;display: inline-block"><a class="text_a1">' + result[i].BLOG_TEXT + '</a><a class="text_a2">' + result[i].BLOG_IMG + '</a></div>\n' +
-                        '        <i data-method="notice" class="layui-icon layui-icon-more "></i></td>\n' +
-                        '      <td>' + result[i].REPORT + '</td>\n' +
-                        '      <td>' + result[i].LOCK_STATE + '</td>\n' +
-                        '      <td>\n' +
-                        '        <button class="layui-btn layui-btn-warm cancel">清空举报</button>\n' +
-                        '        <button class="layui-btn layui-btn-danger delete_Bl">删除微博</button>\n' +
-                        '        <button class="layui-btn layui-btn-danger lock_it">锁定用户</button>\n' +
-                        '      </td>\n' +
-                        '    </tr>\n' +
-                        '\n');
-                      $('#tbody4').append($node);
+        //  锁定用户
+        $("#tbody4").on('click', '.lock_it', function () {
+          var text = "锁定该用户：";
+          var $node = $(this);
+          // alert($node.closest('tr').children().eq(0).text());
+          layer.open({
+            type: 1,
+            title: '警告！',
+            content: '<div style="padding: 20px 80px;">' + text +'<input id="day1" type="text" value="1" class="layui-input" style="display:inline;width: 50px">天'+ '</div>',
+            btn: ['确定', '取消'],
+            btnAlign: 'c',
+            yes: function () {
+              $.ajax({
+                url: '/LockReportUserServlet',
+                type: 'post',
+                data: {
+                  'USER_ID': $node.closest('tr').children().eq(1).text(),
+                  'DAY': 1
+                },
+                dataType: 'json',
+                success: function () {
+                  layer.msg('锁定成功！', {icon: 6});
+                  $node.closest('tr').remove();
+                  $.ajax({
+                    url: '/ShowReportServlet',
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (result) {
+                      for (var i = 0; i < result.length; i++) {
+                        $node = $(
+                          '    <tr>\n' +
+                          '      <td>' + result[i].BLOG_ID + '</td>\n' +
+                          '      <td>' + result[i].USER_ID + '</td>\n' +
+                          '      <td>' + result[i].USER_NAME + '</td>\n' +
+                          '      <td style="width: 420px">\n' +
+                          '        <div style="width:400px;overflow: hidden;white-space: nowrap;display: inline-block"><a class="text_a1">' + result[i].BLOG_TEXT + '</a><a class="text_a2">' + result[i].BLOG_IMG + '</a></div>\n' +
+                          '        <i data-method="notice" class="layui-icon layui-icon-more "></i></td>\n' +
+                          '      <td>' + result[i].REPORT + '</td>\n' +
+                          '      <td>' + result[i].LOCK_STATE + '</td>\n' +
+                          '      <td>\n' +
+                          '        <button class="layui-btn layui-btn-warm cancel">清空举报</button>\n' +
+                          '        <button class="layui-btn layui-btn-danger delete_Bl">删除微博</button>\n' +
+                          '        <button class="layui-btn layui-btn-danger lock_it">锁定用户</button>\n' +
+                          '      </td>\n' +
+                          '    </tr>\n' +
+                          '\n');
+                        $('#tbody4').append($node);
+                      }
                     }
-                  }
-                });
-              }
-            });
+                  });
+                }
+              });
+              layer.closeAll();
+            }
+          });
+        });
+
+
+        //Count
+        $.ajax({
+          url: "/CountAAServlet",
+          type: "post",
+          dataType: "json",
+          success: function (ret) {
+            for (var i = 0; i < ret.length; i++) {
+              $('#span1').html(ret[i].AA);
+            }
           }
         });
-      });
-
-
-      //Count
-      $.ajax({
-        url: "/CountAAServlet",
-        type: "post",
-        dataType: "json",
-        success: function (ret) {
-          for (var i = 0; i < ret.length; i++) {
-            $('#span1').html(ret[i].AA);
+        $.ajax({
+          url: "/CountBBServlet",
+          type: "post",
+          dataType: "json",
+          success: function (ret) {
+            for (var i = 0; i < ret.length; i++) {
+              $('#span2').html(ret[i].BB);
+            }
           }
-        }
-      });
-      $.ajax({
-        url: "/CountBBServlet",
-        type: "post",
-        dataType: "json",
-        success: function (ret) {
-          for (var i = 0; i < ret.length; i++) {
-            $('#span2').html(ret[i].BB);
-          }
-        }
-      });
+        });
 
-    })
-
+      })
+    });
   </script>
+
 </head>
 <body style="background-color: #75c3f1;">
 <div class="layui-tab layui-tab-card" style="border-color: #75c3f1;">
@@ -534,7 +540,6 @@
 <a class="layui-btn" href="#top" style="background-color: #75c3f1;position: fixed;bottom: 0;right: 0">
   <i class="layui-icon layui-icon-up"></i>
 </a>
-
 <script>
   function randomData() {
     return Math.round(Math.random() * 1000);
@@ -734,19 +739,19 @@
 
 </script>
 <script>
-  layui.use('flow', function(){
+  layui.use('flow', function () {
     var $ = layui.jquery; //不用额外加载jQuery，flow模块本身是有依赖jQuery的，直接用即可。
     var flow = layui.flow;
     flow.load({
       elem: '.demo' //指定列表容器
-      ,end:'没啦，都散了吧。散了散了。。',
-      done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+      , end: '没啦，都散了吧。散了散了。。',
+      done: function (page, next) { //到达临界点（默认滚动触发），触发下一页
         var lis = [];
         //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
-        $.get('/api/list?page='+page, function(res){
+        $.get('/api/list?page=' + page, function (res) {
           //假设你的列表返回在data集合中
-          layui.each(res.data, function(index, item){
-            lis.push('<li>'+ item.title +'</li>');
+          layui.each(res.data, function (index, item) {
+            lis.push('<li>' + item.title + '</li>');
           });
 
           //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页

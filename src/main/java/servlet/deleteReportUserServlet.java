@@ -21,8 +21,8 @@ import java.util.List;
 public class deleteReportUserServlet extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     ReportDao reportDao = new ReportDaoImpl();
-    String USER_ID = request.getParameter("USER_ID");
-    List<Report> reports = reportDao.deleteReportBlog(USER_ID);
+    String BLOG_ID = request.getParameter("BLOG_ID");
+    List<Report> reports = reportDao.deleteReportBlog(BLOG_ID);
     JsonConfig jsonConfig = new JsonConfig();
     jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
     JSONArray jsonArray = JSONArray.fromObject(reports, jsonConfig);

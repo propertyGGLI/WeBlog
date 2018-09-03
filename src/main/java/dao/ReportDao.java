@@ -17,5 +17,5 @@ public interface ReportDao {
 //  删除微博
   List<Report> deleteReportBlog(String BLOG_ID);
 //  锁定用户
-  List<Report> lockReportUser(String USER_ID);
+  List<Report> lockReportUser(String USER_ID,BigDecimal DAY);
 }
