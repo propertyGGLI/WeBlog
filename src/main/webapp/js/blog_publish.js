@@ -344,11 +344,69 @@ $(function () {
     //--------------收藏
     $("#result").on('click','.collect',function (e) {
         e.preventDefault();
+        var $nb666=$($(this.parentNode.parentNode.parentNode.parentNode).next());
+        var blogid = $($(this).closest(".blogcontent_main")).attr("blogid");
         if (  $($(this.parentNode.parentNode.parentNode.parentNode).next()).is(':hidden')){
-            $($(this.parentNode.parentNode.parentNode.parentNode).next()).show();
-        }else{
-            $($(this.parentNode.parentNode.parentNode.parentNode).next()).hide();
-        }
+        layer.confirm('是否收藏此微博？', {
+            btn: ['收藏','点错了'] //按钮
+        }, function(){
+            $.ajax({
+                url:"/SelectCollectBlogServlet",
+                type:"post",
+                data:{"blog_id":blogid},
+                dataType:"json",
+                success:function (re) {
+                    if (re == 0) {
+                        $.ajax({
+                            url:"/InsertCollectServlet",
+                            type:"post",
+                            data:{"blog_id":blogid},
+                            dataType:"json",
+                            success:function (ret) {
+                                if (ret == 1) {
+                                    layer.msg('收藏成功', {icon: 1});
+                                    $.ajax({
+                                        url:"/ShowCollectByBlogIdServlet",
+                                        type:"post",
+                                        data:{"blog_id":blogid},
+                                        dataType:"json",
+                                        success:function (ret) {
+                                            for (var qwe =0;qwe<ret.length;qwe++) {
+                                                var $shoucangnode = ('<li><div class="blogcontent_shoucang_demo"><img src="' + ret[qwe].HEAD_IMG + '" alt="" width="24px" height="24px"><a href="">' + ret[qwe].USER_NAME + '</a><span>：收藏了此微博</span></div></li>')
+                                                $nb666.find("ul").append($shoucangnode);
+                                                $nb666.show();
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }else if (re == 1){
+                        layer.msg('您已经收藏过了', {icon: 3});
+                        $.ajax({
+                            url:"/ShowCollectByBlogIdServlet",
+                            type:"post",
+                            data:{"blog_id":blogid},
+                            dataType:"json",
+                            success:function (ret) {
+                                for (var qwe =0;qwe<ret.length;qwe++) {
+                                    var $shoucangnode = ('<li><div class="blogcontent_shoucang_demo"><img src="' + ret[qwe].HEAD_IMG + '" alt="" width="24px" height="24px"><a href="">' + ret[qwe].USER_NAME + '</a><span>：收藏了此微博</span></div></li>')
+                                    $nb666.find("ul").append($shoucangnode);
+                                    $nb666.show();
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+
+
+        }, function(){
+            layer.msg('那就算了', {icon: 5});
+        });}else{
+                $nb666.hide();
+            $nb666.find("ul").children().remove();
+            }
     });
     //-----------------------评论
     $("#result").on('click','.talk',function (e) {
@@ -367,14 +425,33 @@ $(function () {
     //-----------------------点赞
     $("#result").on('click','.like',function (e) {
         e.preventDefault();
-        alert("dianza")
-        var str = $(this).find('img').attr("src");
-        if (str=="images/nolike.png"){
-            $(this).find('img').attr('src','images/like.png');
-        }else{
-            $(this).find('img').attr('src','images/nolike.png');
-        }
-    })
+        var $this =$(this);
+        var $nb999=$($(this.parentNode.parentNode.parentNode.parentNode).next());
+        var blogid = $($(this).closest(".blogcontent_main")).attr("blogid");
+        $.ajax({
+            url:"/insertBlogLikeServlet",
+            type:"post",
+            data:{"blog_id":blogid},
+            dataType:"json",
+            success:function (result) {
+                if (result==1){
+                    layer.msg('点赞成功', {icon: 1});
+                    $this.find('img').attr('src','images/like.png');
+                }else if(result == -1){
+                    layer.msg('取消点赞成功', {icon: 5});
+                    $this.find('img').attr('src','images/nolike.png');
+                }
+            }
+        });
+
+        // alert("dianza")
+        //         // var str = $(this).find('img').attr("src");
+        //         // if (str=="images/nolike.png"){
+        //         //     $(this).find('img').attr('src','images/like.png');
+        //         // }else{
+        //         //     $(this).find('img').attr('src','images/nolike.png');
+        //         // }
+    });
 //    -----------------------------图片
     $("body").on("click",".img_lay",function () {
         var $id  = $(this).parent().attr("id");

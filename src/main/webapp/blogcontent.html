@@ -39,26 +39,16 @@
                     <span class="blogcontent_button_span"><a  class="collect blogcontent_button_a">收藏(3)</a></span>
                     <span class="blogcontent_button_span"><a id="forward"  class="forward blogcontent_button_a">转发(6)</a></span>
                     <span class="blogcontent_button_span"><a  class="talk blogcontent_button_a">评论(1)</a></span>
-                    <span class="blogcontent_button_span"><a  class="like blogcontent_button_a"><img src="images/nolike.png" alt=""><span class="blogcontent_button_zan_num"></span></a></span>
+                    <span class="blogcontent_button_span"><a  class="like blogcontent_button_a"><img src="images/nolike.png" alt="" class="blogcontent_dianzan_xin"><span class="blogcontent_button_zan_num"></span></a></span>
                 </div>
             </div>
         </div>
         <div class="blogcontent_shoucang">
-            <ul>
-                <li>
-                    <div class="blogcontent_shoucang_demo">
-                        <img src="" alt="" width="24px" height="24px">
-                        <a href="">username</a>
-                        <span>：收藏了此微博</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="blogcontent_shoucang_demo">
-                        <img src="" alt="" width="24px" height="24px">
-                        <a href="">username</a>
-                        <span>：收藏了此微博</span>
-                    </div>
-                </li>
+            <ul class="blogcontent_shoucang_ul">
+
+
+
+
             </ul>
         </div>
         <div class="blogcontent_pinglun">
@@ -71,14 +61,7 @@
                     <div class="blogcontent_pinglun_demo">
                         <div class="blogcontent_pinglun_head"><img src="" alt="" width="24px" height="24px"></div>
                         <div class="blogcontent_pinglun_neirong"><span style="width: 300px"><a href="">username :</a><span>真的是日了够了真的是日了够了真的是日了够了真的是日了够了真的是日了够了真的是日了够了真的是日了够了真的是日了够了真的是日了够了真的是日了够了</span></span></div>
-                        <div class="blogcontent_pinglun_huifu"><a href="" class="blogcontent_huifu">回复</a></div
-                    </div>
-                </li>
-                <li>
-                    <div class="blogcontent_pinglun_demo">
-                        <div class="blogcontent_pinglun_head"><img src="" alt="" width="24px" height="24px"></div>
-                        <div class="blogcontent_pinglun_neirong"><span style="width: 365px"><a href="">username :</a><span>真的是日了够了</span></span></div>
-                        <div class="blogcontent_pinglun_huifu"><a href="" class="blogcontent_huifu">回复</a></div
+                        <div class="blogcontent_pinglun_huifu"><a href="" class="blogcontent_huifu">回复</a></div>
                     </div>
                 </li>
             </ul>
@@ -119,6 +102,25 @@
                         var new_main = old_main.clone(true);
                         var $blogcontent_word=new_main.children().eq(2).children().eq(1).children();
                         $("#result").prepend(new_main);
+                        function likeblog() {
+                            $.ajax({
+                                url: "/UserLikeBlogServlet",
+                                type: "post",
+                                async:false,
+                                data: {"blog_id": blogid},
+                                dataType: "json",
+                                success: function (resul) {
+                                    if (resul == 1) {
+                                        new_main.children().eq(2).children().eq(3).children().children().eq(3).children().children().eq(0).attr("src", "images/like.png");
+                                    } else if (resul == 0) {
+                                        new_main.children().find(".blogcontent_dianzan_xin").attr("src", "images/nolike.png");
+                                    }
+                                    // var num = result;
+                                    // new_main.children().eq(2).children().eq(3).children().children().eq(3).children().children(1).test(num);
+                                }
+                            });
+                        }
+                        likeblog();
                         new_main.children().eq(2).children().eq(2).attr("id","layer-photos-demo"+blogid);
                         new_main.attr("id",blogid);
                         new_main.attr("blogid",blogid);
@@ -154,7 +156,7 @@
                                 })
 
                             }
-                        }else if(reg1.test(result[i].BLOG_IMG)){//有图片
+                        }else if(reg1.test(result[i].BLOG_IMG)){//图片
                             // alert(reg1.test(result[i].HEAD_IMG));
                             // alert("有图片");
                             var img = JSON.parse(re[i].BLOG_IMG);
@@ -166,21 +168,11 @@
                                 $blogcontent_word.eq(0).text("含图片的转发");//图片应该为超链接
                                 $blogcontent_word.eq(1).css("display","block")
                             }
-                            $.ajax({
-                                url:"/ShowBlogLikeServlet",
-                                type:"post",
-                                data:{"blog_id":blogid},
-                                dataType:"json",
-                                success:function (result) {
-                                    // var num = result;
-                                    // new_main.children().eq(2).children().eq(3).children().children().eq(3).children().children(1).test(num);
-                                }
-                            })
                             for (var j=0;j<img.length;j++){
                                 var $node = ('<img src="'+img[j]+'"layer-src="'+img[j]+'"  style="margin: 2px;width: 110px;height: 110px" alt="图片名" class="img_lay">')// width="110px" height="110px" style="margin: 2px"
                                 new_main.children().eq(2).children().eq(2).append($node);
                             }
-                        }else if (reg2.test(result[i].BLOG_IMG)) {
+                        }else if (reg2.test(result[i].BLOG_IMG)) {//视频或音乐
                             var img = JSON.parse(re[i].BLOG_IMG);
                             new_main.children().eq(0).children().attr("src",result[i].HEAD_IMG);
                             new_main.children().eq(2).children().eq(0).children().eq(0).text(result[i].USER_NAME);
@@ -194,17 +186,21 @@
                             new_main.find(".blogcontent_photo").append($nodeVideo);
                         }
                     //    --------------------------------------------各种数量
-                        $.ajax({
-                            url:"/ShowBlogLikeServlet",
-                            type:"post",
-                            data:{"blog_id":blogid},
-                            dataType:"json",
-                            success:function (result) {
-
-                                // var num = result;
-                                // new_main.children().eq(2).children().eq(3).children().children().eq(3).children().children(1).test(num);
-                            }
-                        })
+                    //     $.ajax({
+                    //         url:"/UserLikeBlogServlet",
+                    //         type:"post",
+                    //         data:{"blog_id":blogid},
+                    //         dataType:"json",
+                    //         success:function (result) {
+                    //             if (result==1){
+                    //                 new_main.find(".blogcontent_dianzan_xin").attr("src","images/like.png");
+                    //             }else if (result == 0){
+                    //                 new_main.find(".blogcontent_dianzan_xin").attr("src","images/nolike.png");
+                    //             }
+                    //             // var num = result;
+                    //             // new_main.children().eq(2).children().eq(3).children().children().eq(3).children().children(1).test(num);
+                    //         }
+                    //     })
                     }
 
                 }
@@ -215,15 +211,16 @@
             load();
         })
 
-        $(window).scroll(function () {
-            if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
-                toph= $(document).height() - 100;
-                load();
-                window.scrollTo(0,toph);
-                // lastnum = $(".blogcontent_main:last").attr("id");
-                //
-            }
+
         })
-        })
+    $(window).scroll(function () {
+        if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+            var toph= $(document).height() - 100;
+            load();
+            window.scrollTo(0,toph);
+            // lastnum = $(".blogcontent_main:last").attr("id");
+            //
+        }
+    })
 </script>
 </html>
