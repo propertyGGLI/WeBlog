@@ -1,11 +1,8 @@
 package servlet;
 
 import dao.BlogCollectDao;
-import entity.BlogCollect;
+import entity.BlogCollectQuery;
 import impl.BlogCollectDaoImpl;
-import net.sf.json.JSONArray;
-import net.sf.json.JsonConfig;
-import util.JsonDateValueProcessor;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,20 +12,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
 
-@WebServlet("/showCollectServlet")
-public class showCollectServlet extends HttpServlet {
+@WebServlet("/InsertCollectServlet")
+public class InsertCollectServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        BigDecimal showcol = new BigDecimal(request.getParameter("userid"));
-        BlogCollectDao blogCollectDao = new BlogCollectDaoImpl();
-//        List<BlogCollect> blogCollects = blogCollectDao.showcollect(showcol);
-        JsonConfig jsonConfig = new JsonConfig();
-        jsonConfig.registerJsonValueProcessor(Date.class,new JsonDateValueProcessor());
-//        JSONArray array = JSONArray.fromObject(blogCollects,jsonConfig);
+        BigDecimal userid = new BigDecimal("100003");
+        BigDecimal blogid = new BigDecimal(request.getParameter("blog_id"));
+        BlogCollectDao blogCollect  = new BlogCollectDaoImpl();
+        BlogCollectQuery blogCollectQuery = new BlogCollectQuery();
+        blogCollectQuery.setBLOG_ID(blogid);
+        blogCollectQuery.setUSER_ID(userid);
+        int ret =blogCollect.collectblog(blogCollectQuery);
         PrintWriter out = response.getWriter();
-//        out.print(array);
+        out.print(ret);
         out.flush();
         out.close();
     }
