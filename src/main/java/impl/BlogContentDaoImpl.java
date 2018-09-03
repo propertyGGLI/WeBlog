@@ -4,6 +4,8 @@ import dao.BlogContentDao;
 
 import entity.BlogContent;
 import entity.ShowMyContent;
+import entity.UserInfo;
+import entity.getCount;
 import util.BaseDao;
 
 

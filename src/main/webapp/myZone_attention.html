@@ -17,13 +17,59 @@
               for(var i=0;i<result.length;i++){
                       var cloneNode=ModNode.clone(true);
                       var Node = cloneNode.children();
-                      //Node.eq(0).children().attr("src",result[i].HEAD_IMG)
-                      Node.eq(1).children().eq(0).children().text(result[i].USER_NAME);
-                      Node.eq(1).children().eq(3).children().eq(1).text(result[i].ADDRESS);
-                      Node.eq(1).children().eq(4).children().eq(1).text(result[i].INTRO);
-                      $(".attention").append(cloneNode);
-
+                  //Node.eq(0).children().attr("src",result[i].HEAD_IMG)
+                  Node.eq(1).children().eq(0).children().text(result[i].USER_NAME);
+                  Node.eq(1).children().eq(3).children().eq(1).text(result[i].ADDRESS);
+                  Node.eq(1).children().eq(4).children().eq(1).text(result[i].INTRO);
+                  // Node.eq(1).children().eq(2).children().eq(1).text(result[result.length-1])
+                  $.ajax({
+                      url:"/getCountAttentionServlet",
+                      type:"post",
+                      dataType:"json",
+                      success:function (result) {
+                          for(var i=0;i<result.length;i++){
+                              $(".attention_count").eq(i).text(result[i].COUNT);
+                          }
+                      }
+                  })
+                  $.ajax({
+                      url:"/getCountAttentionFServlet",
+                      type:"post",
+                      dataType:"json",
+                      success:function (result) {
+                          for(var i=0;i<result.length;i++){
+                              $(".fans_count").eq(i).text(result[i].COUNT);
+                          }
+                      }
+                  })
+                      //var userid = cloneNode.attr("userid");
+                  $.ajax({
+                      url:"/getCountABlogServlet",
+                      type:"post",
+                      //data:{"userid":userid},
+                      dataType:"json",
+                      success:function (result) {
+                          for(var i=0;i<result.length;i++){
+                              $(".blog_count").eq(i).text(result[i].COUNT);
+                          }
+                      }
+                  })
+                  $(".attention").append(cloneNode);
                 }
+                $(".attention_text").click(function () {
+                    var userid = cloneNode.attr("userid");
+                    $.ajax({
+                        url:"/getCountFBlogServlet",
+                        type:"post",
+                        data:{"userid":userid},
+                        dataType:"json",
+                        success:function (result) {
+                            // for(var i=0;i<result.length;i++){
+                            //     $(".blog_count").eq(i).text(result[i].COUNT);
+                            // }
+                        }
+                    })
+                })
             }
         })
     })
@@ -32,7 +78,7 @@
 <body>
 <div class="attention">
     <div class="unit2_header border_bottom headr_info">我的关注</div>
-    <div class="attention_unit border_bottom">
+    <div userid="userid"class="attention_unit border_bottom">
         <a><img src="images/myZone/attention_img.jpg" class="attention_img"></a>
         <div class="attention_info">
             <a class="a_attention_name name"><div class="attention_name"></div></a>
@@ -41,14 +87,14 @@
             </svg>
             <div class="attention_row">
                 <span>关注</span>
-                <span><a class="a_attention">64</a></span>
+                <span><a class="a_attention attention_count">1</a></span>
                 <div class="attention_row_unit">
                     <span>粉丝</span>
-                    <span><a class="a_attention">22891</a></span>
+                    <span><a class="a_attention fans_count">1</a></span>
                 </div>
                 <div class="attention_row_unit">
                     <span>微博</span>
-                    <span><a class="a_attention">960</a></span>
+                    <span><a class="a_attention blog_count">1</a></span>
                 </div>
             </div>
             <div class="attention_row">

@@ -17,14 +17,14 @@ public class UserInfoDaoImpl extends BaseDao<UserInfo> implements UserInfoDao {
 
     //更新个人信息
     public int updataAllUser(UserInfo userInfo) {
-        return executeUpdate("update USER_INFO set user_name=?,true_name=?,phone_no=?,gender=?,email=?,address=?,blood_type=?,birthday=?,qq=?where user_id=100002",
+        return executeUpdate("update USER_INFO set user_name=?,true_name=?,phone_no=?,gender=?,email=?,address=?,blood_type=?,birthday=?,qq=? where user_id=73",
                 new Object[]{userInfo.getUSER_NAME(), userInfo.getTRUE_NAME(), userInfo.getPHONE_NO(), userInfo.getGENDER(), userInfo.getEMAIL(), userInfo.getADDRESS(), userInfo.getBLOOD_TYPE(), userInfo.getBIRTHDAY(), userInfo.getQQ()});
     }
 
 
     @Override
-    public List<UserInfo> showAllUser() {
-        return executeQuery("select * from user_info order by USER_ID desc");
+    public List<UserInfo> showAllUser1() {
+        return executeQuery("select * from user_info order by MODIFY_DATE_TIME desc");
     }
 
     //查找用户名
@@ -34,7 +34,7 @@ public class UserInfoDaoImpl extends BaseDao<UserInfo> implements UserInfoDao {
     //显示粉丝
     @Override
         public List<UserInfo> FansQuery ( int i){
-            return executeQuery("select * from user_info where user_id in (select fans_id from user_rel where attention_id=?)", new Object[]{i});
+            return executeQuery("select * from user_info where user_id in (select fans_id from user_rel where attention_id=?)order by user_id asc",new Object[]{i});
         }
 
         //显示关注

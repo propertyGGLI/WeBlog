@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserInfoDao {
    //查询用户的所有信息
-   List<UserInfo> showAllUser();
+   List<UserInfo> showAllUser1();
    List<UserInfo> showAllUser(int i);
    //更新个人信息
    int updataAllUser(UserInfo userInfo);
@@ -26,4 +26,5 @@ public interface UserInfoDao {
                                        BIRTHDAY, String QQ);
     List<UserInfo> addUser (String USER_NAME, String USER_PASS, String PHONE_NO, String TRUE_NAME, String
             GENDER, String EMAIL, String ADDRESS, String BLOOD_TYPE, Date BIRTHDAY, String QQ);
+
 }
