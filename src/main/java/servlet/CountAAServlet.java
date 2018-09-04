@@ -27,7 +27,7 @@ public class CountAAServlet extends HttpServlet {
     JSONArray array = JSONArray.fromObject(list,jsonConfig);
     PrintWriter out =response.getWriter();
     out.print(array);
-    System.out.println(array);
+//    System.out.println(array);
     out.flush();
     out.close();
   }
