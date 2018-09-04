@@ -41,7 +41,7 @@
             //问题：不能显示从数据库获取的日期 就写死了默认值
             for (var i = 0; i < result.length; i++) {
               var $node = $('<tr>\n' +
-                '        <td><img src="' + result[i].HEAD_IMG + '" style="width: 100px;"></td>\n' +
+                '        <td><button class="layui-btn layui-icon layui-icon-add-circle-fine"></button><img src="' + result[i].HEAD_IMG + '" style="width: 100px;"></td>\n' +
                 '        <td>' + result[i].USER_ID + '</td>\n' +
                 '        <td><input type="text" style="border: none;width:90px;" value="' + result[i].PHONE_NO + '"></td>\n' +
                 '        <td><input type="text" style="border: none;width:80px;" value="' + result[i].USER_NAME + '"></td>\n' +
