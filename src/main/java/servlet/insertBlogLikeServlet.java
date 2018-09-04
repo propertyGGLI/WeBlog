@@ -19,7 +19,7 @@ public class insertBlogLikeServlet extends HttpServlet {
         try {
             BlogLikeDao insertBlogLike = new BlogLikeDaoImpl();
             BigDecimal blog_id=new BigDecimal( request.getParameter("blog_id"));
-            BigDecimal user_id = new BigDecimal(100003);
+            BigDecimal user_id = new BigDecimal(request.getParameter("user_id"));
             BlogLike blogLike = new BlogLike();
             blogLike.setBLOG_ID(blog_id);
             blogLike.setUSER_ID(user_id);

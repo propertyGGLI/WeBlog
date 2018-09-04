@@ -36,9 +36,9 @@
             </div>
             <div class="blogcontent_bottom">
                 <div class="blogcontent_button">
-                    <span class="blogcontent_button_span"><a  class="collect blogcontent_button_a">收藏(3)</a></span>
-                    <span class="blogcontent_button_span"><a id="forward"  class="forward blogcontent_button_a">转发(6)</a></span>
-                    <span class="blogcontent_button_span"><a  class="talk blogcontent_button_a">评论(1)</a></span>
+                    <span class="blogcontent_button_span"><a  class="collect blogcontent_button_a">收藏</a></span>
+                    <span class="blogcontent_button_span"><a id="forward"  class="forward blogcontent_button_a">转发</a></span>
+                    <span class="blogcontent_button_span"><a  class="talk blogcontent_button_a">评论</a></span>
                     <span class="blogcontent_button_span"><a  class="like blogcontent_button_a"><img src="images/nolike.png" alt="" class="blogcontent_dianzan_xin"><span class="blogcontent_button_zan_num"></span></a></span>
                 </div>
             </div>
@@ -201,6 +201,19 @@
                     //             // new_main.children().eq(2).children().eq(3).children().children().eq(3).children().children(1).test(num);
                     //         }
                     //     })
+                        $.ajax({
+                            url: "/BlogInfoNumByBlogIDServlet",
+                            type: "post",
+                            async:false,
+                            data: {"blog_id": blogid},
+                            dataType: "json",
+                            success: function (result11) {
+                                new_main.children().eq(2).children().eq(3).children().children().eq(0).children().text('收藏('+result11[0].collectNum+')');
+                                // new_main.children().eq(2).children().eq(3).children().children().eq(1).children().text('转发('+result11[0].forwardNum+')');
+                                new_main.children().eq(2).children().eq(3).children().children().eq(2).children().text('评论('+result11[0].discussNum+')');
+                                new_main.children().eq(2).children().eq(3).children().children().eq(1).children().find(".blogcontent_button_zan_num").text(result11[0].likeNum);
+                            }
+                        })
                     }
 
                 }
