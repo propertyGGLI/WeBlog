@@ -344,6 +344,8 @@ $(function () {
     //--------------收藏
     $("#result").on('click','.collect',function (e) {
         e.preventDefault();
+        var $thisthis = $(this);
+        var userid = 100003;
         var $nb666=$($(this.parentNode.parentNode.parentNode.parentNode).next());
         var blogid = $($(this).closest(".blogcontent_main")).attr("blogid");
         if (  $($(this.parentNode.parentNode.parentNode.parentNode).next()).is(':hidden')){
@@ -353,14 +355,14 @@ $(function () {
             $.ajax({
                 url:"/SelectCollectBlogServlet",
                 type:"post",
-                data:{"blog_id":blogid},
+                data:{"blog_id":blogid ,"user_id":userid},
                 dataType:"json",
                 success:function (re) {
                     if (re == 0) {
                         $.ajax({
                             url:"/InsertCollectServlet",
                             type:"post",
-                            data:{"blog_id":blogid},
+                            data:{"blog_id":blogid,"user_id":userid},
                             dataType:"json",
                             success:function (ret) {
                                 if (ret == 1) {
@@ -376,6 +378,17 @@ $(function () {
                                                 $nb666.find("ul").append($shoucangnode);
                                                 $nb666.show();
                                             }
+                                            $.ajax({
+                                                url: "/BlogInfoNumByBlogIDServlet",
+                                                type: "post",
+                                                async:false,
+                                                data: {"blog_id": blogid},
+                                                dataType: "json",
+                                                success: function (result12) {
+                                                    $thisthis.text('收藏('+result12[0].collectNum+')');
+                                                    // new_main.children().eq(2).children().eq(3).children().children().eq(1).children().children().eq(1).text('('+result11[0].likeNum+')');
+                                                }
+                                            })
                                         }
                                     });
                                 }
@@ -425,13 +438,14 @@ $(function () {
     //-----------------------点赞
     $("#result").on('click','.like',function (e) {
         e.preventDefault();
+        var userid = 100003;
         var $this =$(this);
         var $nb999=$($(this.parentNode.parentNode.parentNode.parentNode).next());
         var blogid = $($(this).closest(".blogcontent_main")).attr("blogid");
         $.ajax({
             url:"/insertBlogLikeServlet",
             type:"post",
-            data:{"blog_id":blogid},
+            data:{"blog_id":blogid,"user_id":userid},
             dataType:"json",
             success:function (result) {
                 if (result==1){
@@ -460,6 +474,17 @@ $(function () {
             anim: 5//0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
         });
     })
+//    --------------------------------------显示所有数字
+//     function showAllNum() {
+//         $.ajax({
+//             url: "/BlogInfoNumByBlogIDServlet",
+//             type: "post",
+//             data: {"blog_id": blogid},
+//             dataType: "json",
+//             success: function (result) {
+//             }
+//         })
+//     }
 
 
 })

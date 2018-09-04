@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @WebServlet("/InsertCollectServlet")
 public class InsertCollectServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        BigDecimal userid = new BigDecimal("100003");
+        BigDecimal userid = new BigDecimal(request.getParameter("user_id"));
         BigDecimal blogid = new BigDecimal(request.getParameter("blog_id"));
         BlogCollectDao blogCollect  = new BlogCollectDaoImpl();
         BlogCollectQuery blogCollectQuery = new BlogCollectQuery();
