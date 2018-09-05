@@ -9,6 +9,6 @@ import java.util.List;
 public class CountBBDaoImpl extends BaseDao<CountBB> implements CountBBDao {
   @Override
   public List<CountBB> CountBB() {
-    return executeQuery("select count(*) as BB from BLOG_CONTENT");
+    return executeQuery("select count(*) as BB from BLOG_CONTENT where report > 0");
   }
 }

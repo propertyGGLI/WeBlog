@@ -12,7 +12,7 @@ public class ReportDaoImpl extends BaseDao<Report> implements ReportDao {
   //查询被举报的微博
   @Override
   public List<Report> showReport() {
-    return executeQuery("select a.user_id,a.user_name,a.Lock_State,b.Blog_Id,b.Blog_Text,blog_img,b.Report from USER_INFO a,BLOG_CONTENT b where a.user_id = b.User_id and b.report > 0");
+    return executeQuery("select a.user_id,a.user_name,a.Lock_State,b.Blog_Id,b.Blog_Text,blog_img,b.Report from USER_INFO a,BLOG_CONTENT b where a.user_id = b.User_id and b.report > 0 order by b.report desc");
   }
 
   @Override
@@ -26,8 +26,8 @@ public class ReportDaoImpl extends BaseDao<Report> implements ReportDao {
   }
 
   @Override
-  public List<Report> lockReportUser(String USER_ID,BigDecimal DAY) {
-    return executeQuery("update user_info set LOCK_STATE = sysdate + ? where USER_ID = ?",new Object[]{DAY,USER_ID});
+  public List<Report> lockReportUser(String USER_ID) {
+    return executeQuery("update user_info set LOCK_STATE = sysdate + 1 where USER_ID = ?",new Object[]{USER_ID});
   }
 
 

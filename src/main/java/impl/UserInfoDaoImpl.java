@@ -66,9 +66,9 @@ public class UserInfoDaoImpl extends BaseDao<UserInfo> implements UserInfoDao {
     return executeQuery("delete * from user_info where user_id = ?",new Object[]{userInfo});
   }
     @Override
-    public List<UserInfo> addUser (String USER_NAME, String USER_PASS, String PHONE_NO, String TRUE_NAME, String
+    public List<UserInfo> addUser (String HEAD_IMG,String USER_NAME, String USER_PASS, String PHONE_NO, String TRUE_NAME, String
             GENDER, String EMAIL, String ADDRESS, String BLOOD_TYPE, Date BIRTHDAY, String QQ){
-        return executeQuery("insert into USER_INFO(USER_NAME,USER_PASS,PHONE_NO,TRUE_NAME,GENDER,EMAIL,ADDRESS,BLOOD_TYPE,BIRTHDAY,QQ) values(?,?,?,?,?,?,?,?,?,?)", new Object[]{USER_NAME, USER_PASS, PHONE_NO, TRUE_NAME, GENDER, EMAIL, ADDRESS, BLOOD_TYPE, BIRTHDAY, QQ});
+        return executeQuery("insert into USER_INFO(HEAD_IMG,USER_NAME,USER_PASS,PHONE_NO,TRUE_NAME,GENDER,EMAIL,ADDRESS,BLOOD_TYPE,BIRTHDAY,QQ) values(?,?,?,?,?,?,?,?,?,?)", new Object[]{HEAD_IMG,USER_NAME, USER_PASS, PHONE_NO, TRUE_NAME, GENDER, EMAIL, ADDRESS, BLOOD_TYPE, BIRTHDAY, QQ});
     }
     @Override
     public List<UserInfo> updataUser (BigDecimal USER_ID, String USER_NAME, String USER_PASS, String

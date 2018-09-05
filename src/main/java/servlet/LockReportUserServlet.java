@@ -24,10 +24,9 @@ public class LockReportUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       ReportDao reportDao = new ReportDaoImpl();
       String USER_ID = request.getParameter("USER_ID");
-      BigDecimal DAY = new BigDecimal(request.getParameter("DAY"));
 //      时间格式转换问题
 //      Date LOCK_STATE = Timestamp.valueOf(request.getParameter("LOCK_STATE"));
-      List<Report> reports = reportDao.lockReportUser(USER_ID,DAY);
+      List<Report> reports = reportDao.lockReportUser(USER_ID);
       JsonConfig jsonConfig = new JsonConfig();
       jsonConfig.registerJsonValueProcessor(Date.class,new JsonDateValueProcessor());
       JSONArray jsonArray = JSONArray.fromObject(reports,jsonConfig);
