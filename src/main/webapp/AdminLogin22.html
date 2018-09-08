@@ -37,6 +37,29 @@
     </div>
   </form>
 </div>
+
+<img src="images/myZone/touxiang.jpg" height="640" width="640"/><img src="images/myZone/example_myZone.jpg" height="100" width="100"/>
+<script>
+  layui.use(['slider','layer'], function(){
+    var slider = layui.slider;
+    var layer = layui.layer;
+
+    //渲染
+    slider.render({
+      elem: '#slideTest1',
+      change: function(value){
+        // console.log(value); //动态获取滑块数值
+        //do something
+        if(value > 50){
+          layer.msg('验证成功！',{icon:6})
+          $('#aaa').text(value)
+        }else{
+          layer.msg('验证失败！',{icon:5})
+        }
+      }//绑定元素
+    });
+  });
+</script>
 <script>
   layui.use(['slider','layer'], function(){
     var slider = layui.slider;
@@ -64,7 +87,7 @@
     $("#sub").click(function () {
         if (($("input[name='username']").val() == 'admin') && ($("input[name='password']").val() == 'admin')) {
           if ($('#aaa').text() > 50) {
-            window.location.href = 'http://localhost:8080/admin.html';
+            window.location.href = 'http://140.143.225.201:8080/admin.html';
           } else {
             layer.msg('验证失败！!',{icon:5});
           }
