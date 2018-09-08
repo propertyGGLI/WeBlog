@@ -1,9 +1,7 @@
 package servlet;
 
-import dao.UserRelDao;
-import entity.getCount;
-import impl.UserRelDapImpl;
-import net.sf.json.JSONArray;
+import dao.BlogCollectDao;
+import impl.BlogCollectDaoImpl;
 import net.sf.json.JsonConfig;
 import util.JsonDateValueProcessor;
 
@@ -14,24 +12,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
-@WebServlet( "/getCountFansAServlet")
-public class getCountFansAServlet extends HttpServlet {
+@WebServlet("/showCollectServlet")
+public class ShowCollectServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserRelDao dao =new UserRelDapImpl();
-        List<getCount> list=dao.getCountFansA(50);
+        BigDecimal showcol = new BigDecimal(request.getParameter("userid"));
+        BlogCollectDao blogCollectDao = new BlogCollectDaoImpl();
+//        List<BlogCollect> blogCollects = blogCollectDao.showcollect(showcol);
         JsonConfig jsonConfig = new JsonConfig();
         jsonConfig.registerJsonValueProcessor(Date.class,new JsonDateValueProcessor());
-        JSONArray array = JSONArray.fromObject(list,jsonConfig);
-        PrintWriter out=response.getWriter();
-        out.print(array);
+//        JSONArray array = JSONArray.fromObject(blogCollects,jsonConfig);
+        PrintWriter out = response.getWriter();
+//        out.print(array);
         out.flush();
         out.close();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.doPost(request,response);
+        doPost(request,response);
     }
 }

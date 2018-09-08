@@ -24,8 +24,8 @@ public class UserInfo implements Serializable {
     private String QQ;
     public UserInfo(){}
     //更新个人信息
-    public UserInfo(String USER_NAME,String PHONE_NO,String TRUE_NAME,String GENDER,String EMAIL,String ADDRESS,String BLOOD_TYPE,Date BIRTHDAY,String QQ){
-        //this.USER_ID=USER_ID;
+    public UserInfo(String USER_NAME,String PHONE_NO,String TRUE_NAME,String GENDER,String EMAIL,String ADDRESS,String BLOOD_TYPE,Date BIRTHDAY,String QQ,String INTRO,BigDecimal USER_ID){
+        this.USER_ID=USER_ID;
         this.USER_NAME=USER_NAME;
         this.PHONE_NO=PHONE_NO;
         this.TRUE_NAME=TRUE_NAME;
@@ -35,6 +35,7 @@ public class UserInfo implements Serializable {
         this.BLOOD_TYPE=BLOOD_TYPE;
         this.BIRTHDAY=BIRTHDAY;
         this.QQ=QQ;
+        this.INTRO=INTRO;
 }
     public UserInfo(String USER_NAME){
         this.USER_NAME=USER_NAME;

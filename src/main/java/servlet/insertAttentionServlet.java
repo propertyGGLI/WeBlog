@@ -16,10 +16,10 @@ import java.math.BigDecimal;
 @WebServlet("/insertAttentionServlet")
 public class insertAttentionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        BigDecimal userid = new BigDecimal(request.getParameter("USER_ID"));
-        BigDecimal fans_id = new BigDecimal(request.getParameter("userid"));
+        BigDecimal fans_id = new BigDecimal(request.getParameter("USER_ID"));
+        BigDecimal attenton_id = new BigDecimal(request.getParameter("userid"));
         UserRelDao dao=new UserRelDapImpl();
-        int re=dao.insertAttention(fans_id,userid);
+        int re=dao.insertAttention(fans_id,attenton_id);
         JSONArray array=JSONArray.fromObject(re);
         PrintWriter out=response.getWriter();
         out.print(array);

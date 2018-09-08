@@ -17,8 +17,9 @@ import java.math.BigDecimal;
 public class deleteAttentionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BigDecimal attention_id = new BigDecimal(request.getParameter("userid"));
+        BigDecimal fans_id = new BigDecimal(request.getParameter("USER_ID"));
         UserRelDao dao=new UserRelDapImpl();
-        int re=dao.deleteAttention(attention_id);
+        int re=dao.deleteAttention(attention_id,fans_id);
         JSONArray array=JSONArray.fromObject(re);
         PrintWriter out=response.getWriter();
         out.print(array);

@@ -41,18 +41,19 @@
             //问题：不能显示从数据库获取的日期 就写死了默认值
             for (var i = 0; i < result.length; i++) {
               var $node = $('<tr>\n' +
-                '        <td><img src="' + result[i].HEAD_IMG + '" style="width: 100px;"></td>\n' +
+                '        <td><img src="' + result[i].HEAD_IMG + '" style="width: 50px;"></td>\n' +
                 '        <td>' + result[i].USER_ID + '</td>\n' +
-                '        <td><input type="text" style="border: none;width:90px;" value="' + result[i].PHONE_NO + '"></td>\n' +
+                '        <td><input type="text" style="border: none;width:100px;" value="' + result[i].PHONE_NO + '"></td>\n' +
                 '        <td><input type="text" style="border: none;width:80px;" value="' + result[i].USER_NAME + '"></td>\n' +
-                '        <td><input type="text" style="border: none;width:80px;" value="' + result[i].USER_PASS + '"></td>\n' +
-                '        <td><input type="text" style="border: none;width:80px;" value="' + result[i].TRUE_NAME + '"></td>\n' +
-                '        <td><input type="text" style="border: none;width:30px;" value="' + result[i].GENDER + '"></td>\n' +
-                '        <td><input type="text" style="border: none;width:30px;" value="' + result[i].BLOOD_TYPE + '"></td>\n' +
-                '        <td><input type="text" style="border: none;width:140px;" value="' + result[i].EMAIL + '"></td>\n' +
-                '        <td><input type="text" style="border: none;" value="' + result[i].ADDRESS + '"></td>\n' +
+                '        <td><input type="text" style="border: none;width:50px;" value="' + result[i].USER_PASS + '"></td>\n' +
+                '        <td><input type="text" style="border: none;width:50px;" value="' + result[i].TRUE_NAME + '"></td>\n' +
+                '        <td><input type="text" style="border: none;width:15px;" value="' + result[i].GENDER + '"></td>\n' +
+                '        <td><input type="text" style="border: none;width:19px;" value="' + result[i].BLOOD_TYPE + '"></td>\n' +
+                '        <td><input type="text" style="border: none;width:90px;" value="' + result[i].EMAIL + '"></td>\n' +
+                '        <td><input type="text" style="border: none;width:60px;" value="' + result[i].ADDRESS + '"></td>\n' +
                 '        <td><input type="text" style="border:none;width:90px;" Value="' + Math.round(Math.random() * 30 + 1970) + '-0' + Math.round(Math.random() * 8 + 1) + '-' + Math.round(Math.random() * 21 + 9) + '"></td>\n' +
-                '        <td><input type="text" style="border: none;width:80px;" value="' + result[i].QQ + '"></td>\n' +
+                // '        <td><input type="text" style="border: none;width:70px;"  value="' + result[i].BIRTHDAY + '"></td>\n' +
+                '        <td><input type="text" style="border: none;width:50px;" value="' + result[i].QQ + '"></td>\n' +
                 '        <td>' + result[i].CREATE_DATE_TIME + '</td>\n' +
                 '        <td>' + result[i].MODIFY_DATE_TIME + '</td>\n' +
                 '        <td>\n' +
@@ -418,7 +419,7 @@
     <li id="report">审核微博<span id="span2" class="layui-badge"></span></li>
     <li>统计模块</li>
     <li>其他</li>
-    <li style="float: right"><a href="register.html">退出</a></li>
+    <li style="float: right"><a href="index.html">退出</a></li>
     <li style="float: right"><a href="AdminLogin22.html">切换用户</a></li>
   </ul>
 
@@ -450,10 +451,10 @@
           <td><i class="layui-icon layui-icon-face-smile" style="font-size: 40px;color: green"></i></td>
           <td><input type="text" style="border: none;width:90px" value="17811781887"></td>
           <td><input type="text" style="border: none;width:90px" value="考克斯"></td>
-          <td><input type="text" style="border: none;width:90px" value="123456"></td>
-          <td><input type="text" style="border: none;width:90px" value="李狗蛋"></td>
-          <td><input type="text" style="border: none;width:90px" value="男"></td>
-          <td><input type="text" style="border: none;width:90px" value="O"></td>
+          <td><input type="text" style="border: none;width:50px" value="123456"></td>
+          <td><input type="text" style="border: none;width:50px" value="李狗蛋"></td>
+          <td><input type="text" style="border: none;width:50px" value="男"></td>
+          <td><input type="text" style="border: none;width:50px" value="O"></td>
           <td><input type="text" style="border: none;width:90px" value="1@qq.com"></td>
           <td><input type="text" style="border: none;width:90px" value="天津西青"></td>
           <td><input type="text" class="layui-input" id="test18" placeholder="1999-01-01"></td>
@@ -531,7 +532,7 @@
     </div>
     <!--统计模块-->
     <div class="layui-tab-item">
-      <div id="div5" style="width: 1000px;height: 800px;background-color: white;position: relative;left: 20%">
+      <div id="div5" style="width: 1000px;height: 600px;background-color: white;position: relative;left: 10%">
       </div>
     </div>
   </div>
@@ -541,8 +542,224 @@
   <i class="layui-icon layui-icon-up"></i>
 </a>
 <script>
+  function adr1() {
+    var num = 0 ;
+    $.ajax({
+      url:'/showAllUser1Servlet',
+      type:'post',
+      dataType:'json',
+      success:function (ret) {
+        for (var i = 0 ; i < ret.length ; i++){
+        //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("北京") > 0){
+            num++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("海南") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("台湾") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("澳门") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("香港") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("广东") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("福建") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("上海") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("浙江") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("江西") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("湖南") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("广西") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("云南") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("贵州") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("重庆") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("湖北") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("安徽") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("江苏") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("河南") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("山东") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("天津") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("黑龙江") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("吉林") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("辽宁") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("河北") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("山西") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("陕西") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("四川") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("内蒙古") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("宁夏") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("青海") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("甘肃") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("西藏") > 0){
+            num ++;
+          }
+        }
+        for (var i = 0 ; i < ret.length ; i++){
+          //  模糊匹配省份
+          if(ret[i].ADDRESS.indexOf("新疆") > 0){
+            num ++;
+          }
+        }
+
+      }
+    });
+    return num;
+  }
   function randomData() {
-    return Math.round(Math.random() * 1000);
+    return Math.round(Math.random() * 50);
   }
 
   var myChart = echarts.init(document.getElementById('div5'), 'myChart1');
@@ -557,11 +774,11 @@
     legend: {
       orient: 'vertical',
       left: 'left',
-      data: '普通用户'
+      data: ''
     },
     visualMap: {
       min: 0,
-      max: 2500,
+      max: 50,
       left: 'left',
       top: 'bottom',
       text: ['高', '低'], // 文本，默认为数值文本
@@ -581,7 +798,7 @@
       }
     },
     series: [{
-      name: '普通用户',
+      name: 'users',
       type: 'map',
       mapType: 'china',
       roam: false,
@@ -619,7 +836,7 @@
         },
         {
           name: '云南',
-          value: randomData()
+          value:randomData()
         },
         {
           name: '辽宁',
@@ -643,7 +860,7 @@
         },
         {
           name: '新疆',
-          value: randomData()
+          value:randomData()
         },
         {
           name: '江苏',
@@ -651,11 +868,11 @@
         },
         {
           name: '浙江',
-          value: randomData()
+          value:randomData()
         },
         {
           name: '江西',
-          value: randomData()
+          value:randomData()
         },
         {
           name: '湖北',
@@ -667,7 +884,7 @@
         },
         {
           name: '甘肃',
-          value: randomData()
+          value:randomData()
         },
         {
           name: '山西',
@@ -675,7 +892,7 @@
         },
         {
           name: '内蒙古',
-          value: randomData()
+          value:randomData()
         },
         {
           name: '陕西',
@@ -683,11 +900,11 @@
         },
         {
           name: '吉林',
-          value: randomData()
+          value:randomData()
         },
         {
           name: '福建',
-          value: randomData()
+          value:randomData()
         },
         {
           name: '贵州',
@@ -707,7 +924,7 @@
         },
         {
           name: '四川',
-          value: randomData()
+          value:randomData()
         },
         {
           name: '宁夏',

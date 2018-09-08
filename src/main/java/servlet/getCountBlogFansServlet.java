@@ -21,10 +21,9 @@ import java.util.List;
 @WebServlet("/getCountFBlogServlet")
 public class getCountBlogFansServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id=request.getParameter("userid");
-        getCount bean=new getCount();
+        BigDecimal user_id = new BigDecimal(request.getParameter("USER_ID"));
         UserRelDao dao =new UserRelDapImpl();
-        List<getCount> list=dao.getCountFansBlog(50);
+        List<getCount> list=dao.getCountFansBlog(user_id);
         JSONArray array = JSONArray.fromObject(list);
         PrintWriter out=response.getWriter();
         out.print(array);

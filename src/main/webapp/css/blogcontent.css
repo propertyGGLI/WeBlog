@@ -191,3 +191,20 @@ li{
 .forwardcontent_word{
     font-size: 12px;
 }
+.ta_c{text-align: center;
+    margin-top: 100px;}
+
+@-webkit-keyframes rotation{
+    from {-webkit-transform: rotate(0deg);}
+    to {-webkit-transform: rotate(360deg);}
+}
+
+.Rotation{
+    -webkit-transform: rotate(360deg);
+    animation: rotation 3s linear infinite;
+    -moz-animation: rotation 3s linear infinite;
+    -webkit-animation: rotation 3s linear infinite;
+    -o-animation: rotation 3s linear infinite;
+}
+
+/*.img{border-radius: 250px;}*/

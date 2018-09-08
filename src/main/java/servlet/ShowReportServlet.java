@@ -5,10 +5,7 @@ import entity.Report;
 import impl.ReportDaoImpl;
 import net.sf.json.JSONArray;
 import net.sf.json.JsonConfig;
-import net.sf.json.processors.JsDateJsonValueProcessor;
-import net.sf.json.processors.JsonValueProcessor;
 import util.JsonDateValueProcessor;
-import util.Report_JsonDateValueProcessor;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 

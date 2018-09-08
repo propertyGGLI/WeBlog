@@ -1,7 +1,6 @@
 package servlet;
 
 import dao.BlogCollectDao;
-import entity.BlogCollect;
 import entity.BlogCollectQuery;
 import impl.BlogCollectDaoImpl;
 
@@ -18,7 +17,7 @@ import java.math.BigDecimal;
 public class SelectCollectBlogServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BigDecimal blog_id=new BigDecimal( request.getParameter("blog_id"));
-        BigDecimal user_id = new BigDecimal("100003");
+        BigDecimal user_id = new BigDecimal(request.getParameter("user_id"));
         BlogCollectQuery blogCollectQuery = new BlogCollectQuery();
         BlogCollectDao blogCollect = new BlogCollectDaoImpl();
         blogCollectQuery.setUSER_ID(user_id);

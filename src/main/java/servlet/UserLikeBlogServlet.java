@@ -19,7 +19,7 @@ public class UserLikeBlogServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BlogLikeDao UserLikeBlog = new BlogLikeDaoImpl();
         BigDecimal blog_id=new BigDecimal( request.getParameter("blog_id"));
-        BigDecimal user_id = new BigDecimal("100003");
+        BigDecimal user_id = new BigDecimal(request.getParameter("user_id"));
         BlogLike blogLike = new BlogLike();
         blogLike.setBLOG_ID(blog_id);
         blogLike.setUSER_ID(user_id);

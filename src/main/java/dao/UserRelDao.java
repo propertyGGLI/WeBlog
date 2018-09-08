@@ -1,19 +1,18 @@
 package dao;
 
-import entity.UserInfo;
-import entity.UserRel;
 import entity.getCount;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public interface UserRelDao {
-    List<getCount> getCountFans(int i);
-    List<getCount> getCountAttention(int i);
-    List<getCount> getCountFansA(int i);
-    List<getCount> getCountAttentionF(int i);
-    List<getCount> getCountFansBlog(int i);
-    List<getCount> getCountAttentionBlog(int i);
-    int insertAttention(BigDecimal REL_ID, BigDecimal ATTENTION_ID);
-    int deleteAttention(BigDecimal ATTENTION_ID);
+    List<getCount> getCountFans(BigDecimal USER_ID);
+    List<getCount> getCountAttention(BigDecimal USER_ID);
+    List<getCount> getCountFansA(BigDecimal USER_ID);
+    List<getCount> getCountAttentionF(BigDecimal USER_ID);
+    List<getCount> getCountAttentionBlog(BigDecimal USER_ID);
+    List<getCount> getCountFansBlog(BigDecimal USER_ID);
+    int insertAttention(BigDecimal FANS_ID, BigDecimal ATTENTION_ID);
+    int deleteAttention(BigDecimal ATTENTION_ID,BigDecimal FANS_ID);
+    List<getCount> QueryAttention(BigDecimal FANS_ID, BigDecimal ATTENTION_ID);
 }
